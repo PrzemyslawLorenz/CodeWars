@@ -1,20 +1,17 @@
 import math
 
 
-def isSquare(number):
+def is_square(number):
     try:
         x = int(math.sqrt(number))
-        if x*x == number:
-            return True
-        else:
-            return False
+        return x**2 == number
     except ValueError:
         return False
 
 
-print(isSquare(-1))
-print(isSquare(0))
-print(isSquare(3))
-print(isSquare(4))
-print(isSquare(25))
-print(isSquare(26))
+print(is_square(-1))
+print(is_square(0))
+print(is_square(3))
+print(is_square(4))
+print(is_square(25))
+print(is_square(26))
