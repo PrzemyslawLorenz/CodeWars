@@ -1,26 +1,25 @@
 def mix(s1, s2):
-    stringList = ""
-    for i in s1:
+    stringList = []
+    for i, j in zip(s1, s2):
         if ord(i) in range(97, 123):
             if s1.count(i) > 1:
-                stringList += ('1:' + i * s1.count(i) + '/')
+                stringList.append('1:' + i * s1.count(i))
                 s1 = s1.replace(i, '')
     for i in s2:
         if ord(i) in range(97, 123):
             if s2.count(i) > 1:
-                if s2.count(i) == stringList.count(i):
-                    stringList = stringList.replace('1:' + i, '=:' + i)
-                elif s2.count(i) > stringList.count(i):
-                    stringList += ('2:' + i * s2.count(i) + '/')
-                    stringList = stringList.replace('1:' + i*stringList.count(i), '')
-                elif s2.count(i) < stringList.count(i):
-                    continue
+                if ('1:' + i * s2.count(i)) in stringList:
+                    stringList.append('=:' + i * s2.count(i))
+                    stringList.remove('1:' + i * s2.count(i))
+                # elif stringList[:][]
                 else:
-                    stringList += ('2:' + i * s2.count(i) + '/')
+                    stringList.append('2:' + i * s2.count(i))
                 s2 = s2.replace(i, '')
-
+                
     print(stringList)
-    # print(sorted(stringList, key=len, reverse=True))
+    print(sorted(stringList, key=len, reverse=True))
+
+    pass
 
 
 s1 = "my&friend&Paul has heavy hats! &"
