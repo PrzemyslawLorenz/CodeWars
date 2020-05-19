@@ -3,29 +3,55 @@ import math
 
 class Sudoku(object):
     def __init__(self, data):
-        self.all = []
-        for x in range(len(data)):
-            newColumn = []
-            self.all.append(data[x])
-            for y in range(len(data)):
-                newColumn.append(data[y][x])
-            self.all.append(newColumn)
+        # Size of Sudoku = NxN -> N = len(data)
+        sS = math.sqrt(len(data))  # sS = length of small square
 
-        for _ in range(int(math.sqrt(len(data)))):
-            newSquare = []
-            for x in range(len(data)):
-                newSquare.extend(data[x][_*3:_*3+3])
-                if len(newSquare) == 9:
-                    self.all.append(newSquare)
-                    newSquare = []
+        # Checking data
+        # Not empty and correct size ?
+        if sS >= 1 and sS == int(sS):
+            for i in data:
+                # Square size ?
+                if len(i) == len(data):
+                    for j in i:
+                        # Element is integer and is in range from 1 to N (N included)?
+                        if type(j) == int and 1 <= j <= len(data):
+                            self.data = data
+                            self.sS = int(sS)
+                        else:
+                            return None
+                else:
+                    return None
+        else:
+            return None
 
     def is_valid(self):
-        print("\nczy jest valid: ", self.all, len(self.all))
-        for i in self.all:
-            for j in i:
-                if i.count(j) > 1:
-                    return False
-        return True
+        try:
+            all = []
+            # Adding lines and columns
+            for x in range(len(self.data)):
+                newColumn = []
+                all.append(self.data[x])
+                for y in range(len(self.data)):
+                    newColumn.append(self.data[y][x])
+                all.append(newColumn)
+
+            # Adding small squares
+            for s in range(self.sS):
+                newSquare = []
+                for x in range(len(self.data)):
+                    newSquare.extend(
+                        self.data[x][s*self.sS: s*self.sS+self.sS])
+                    if len(newSquare) == 9:
+                        all.append(newSquare)
+                        newSquare = []
+
+            for i in all:
+                for j in i:
+                    if i.count(j) > 1:
+                        return False
+            return True
+        except AttributeError:
+            return False
 
 
 goodSudoku1 = Sudoku([
@@ -42,6 +68,14 @@ goodSudoku1 = Sudoku([
     [1, 9, 5, 2, 8, 7, 6, 3, 4]
 ])
 
+goodSudoku2 = Sudoku([
+    [1, 4, 2, 3],
+    [3, 2, 4, 1],
+
+    [4, 1, 3, 2],
+    [2, 3, 1, 4]
+])
+
 badSudoku1 = Sudoku([
     [0, 2, 3, 4, 5, 6, 7, 8, 9],
     [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -56,5 +90,23 @@ badSudoku1 = Sudoku([
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ])
 
+badSudoku2 = Sudoku([
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4],
+    [1, 2, 3, 4],
+    [1]
+])
+
+goodSudoku3 = Sudoku([[1]])
+badSudoku3 = Sudoku([['j']])
+badSudoku4 = Sudoku([[-1]])
+badSudoku5 = Sudoku([[]])
+
 print(goodSudoku1.is_valid())
+print(goodSudoku2.is_valid())
 print(badSudoku1.is_valid())
+print(badSudoku2.is_valid())
+print(goodSudoku3.is_valid())
+print(badSudoku3.is_valid())
+print(badSudoku4.is_valid())
+print(badSudoku5.is_valid())
