@@ -1,5 +1,6 @@
 import math
 
+
 class Sudoku(object):
     def __init__(self, data):
         self.all = []
@@ -9,30 +10,17 @@ class Sudoku(object):
             for y in range(len(data)):
                 newColumn.append(data[y][x])
             self.all.append(newColumn)
-        helps2 = int(math.sqrt(len(data)))
-        helps1 = 0
-        helps3 = 0
-        helps4 = 3
-        while len(self.all) < len(data)*3:
+
+        for _ in range(int(math.sqrt(len(data)))):
             newSquare = []
-            for x in range(helps1, helps2):
-                for y in range(helps3, helps4):
-                    newSquare.append(data[x][y])
-
-            print(newSquare)
-            self.all.append(newSquare)
-            if helps4 < len(data):
-                helps3 += 3
-                helps4 += 3
-            else:
-                helps1 += 3
-                helps2 += 3
-                helps3 = 0
-                helps4 = 3
-
+            for x in range(len(data)):
+                newSquare.extend(data[x][_*3:_*3+3])
+                if len(newSquare) == 9:
+                    self.all.append(newSquare)
+                    newSquare = []
 
     def is_valid(self):
-        print(self.all)
+        print("\nczy jest valid: ", self.all, len(self.all))
         for i in self.all:
             for j in i:
                 if i.count(j) > 1:
@@ -40,22 +28,6 @@ class Sudoku(object):
         return True
 
 
-"""
-
-print(sudoku([
-    [7, 8, 4,  1, 5, 9,  3, 2, 6],
-    [5, 3, 9,  6, 7, 2,  8, 4, 1],
-    [6, 1, 2,  4, 3, 8,  7, 5, 9],
-
-    [9, 2, 8,  7, 1, 5,  4, 6, 3],
-    [3, 5, 7,  8, 4, 6,  1, 9, 2],
-    [4, 6, 1,  9, 2, 3,  5, 8, 7],
-
-    [8, 7, 6,  3, 9, 4,  2, 1, 5],
-    [2, 4, 3,  5, 6, 1,  9, 7, 8],
-    [1, 9, 5,  2, 8, 7,  6, 3, 4]
-]))
-"""
 goodSudoku1 = Sudoku([
     [7, 8, 4, 1, 5, 9, 3, 2, 6],
     [5, 3, 9, 6, 7, 2, 8, 4, 1],
